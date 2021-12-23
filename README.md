@@ -1,4 +1,4 @@
-# pseudodiploidy
+# Yeast Pseudodiploidy
 
 ## Singularity
 ### Install Singularity
