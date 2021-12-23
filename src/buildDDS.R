@@ -7,21 +7,22 @@ library(foreach)
 library(R.utils)
 library(DESeq2)
 
-args <- commandArgs(trailingOnly = TRUE)
+source('src/vars.R')
 
-countsRDSname <- args[1]
-coldataFilename <- args[2]
-outputFilename <- args[3]
-
-counts <- readRDS(countsRDSname)
+counts <- readRDS(featureCountMatrixFilename)
 
 coldata <- fread(coldataFilename)
 coldataIDs <- coldata[, id]
 coldata[, id := NULL]
+coldata[, condition := paste(background, treatment, sep="_")]
+coldata[, c("background", "treatment", "type") := NULL]
 coldata <- as.data.frame(coldata)
 rownames(coldata) <- coldataIDs
 
 
-dds <- DESeqDataSetFromMatrix(countData=counts, colData=coldata, design = ~background*treatment)
+dds <- DESeqDataSetFromMatrix(countData=counts, colData=coldata, design = ~condition)
+dds <- estimateSizeFactors(dds)
+dds <- estimateDispersions(dds)
+dds <- nbinomWaldTest(dds)
 
-saveRDS(dds, outputFilename)
+saveRDS(dds, DESeqDdsFilename)
