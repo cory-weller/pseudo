@@ -37,6 +37,8 @@ From: ubuntu:focal
     R --no-echo -e "install.packages('ggthemes', repos='http://cran.us.r-project.org')"
     R --no-echo -e "install.packages('BiocManager', repos='http://cran.us.r-project.org')"
     R --no-echo -e "BiocManager::install('DESeq2')"
+    R --no-echo -e "BiocManager::install('apeglm')"
+
 
 %environment
     export LANG="en_US.UTF-8"
