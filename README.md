@@ -46,6 +46,7 @@ singularity exec -H $PWD:/home src/R.sif Rscript \
     data/processed/DDS.RDS
 
 # Run differential expression contrasts
+# using src/runContrast.R
 
 ```
 
